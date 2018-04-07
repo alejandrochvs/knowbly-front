@@ -1,12 +1,17 @@
 const express = require('express'),
   app = express(),
   api = require('./api/api'),
+  cors = require('cors'),
+  bodyParser = require('body-parser'),
   port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname));
-app.use('/api',api);
+app.use(bodyParser.json());
+app.use(cors());
 
-app.get('/', (req,res) => {
+app.use('/api', api);
+
+app.get('/', (req, res) => {
   res.render('index');
 });
 

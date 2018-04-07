@@ -1,20 +1,77 @@
 <div class="image-marker">
-  <input @keydown="pushHistory()" v-model="image.imageUrl" type="text" placeholder="Please insert image URL"/>
-  <button @click="restorePrevious()" v-if="history.length">Previous</button>
-  <br/>
+  <button style="width: 100%; margin-bottom: 15px" @click="togglePreview()" v-if="preview">Close preview</button>
+  <div class="editor" v-if="!preview">
+    <h2 style="text-align: center">Editor</h2>
+    <hr>
+    <div class="row image-changer">
+      <label for="imageInput">Image URL</label>
+      <input id="imageInput" @keydown="pushHistory()" v-model="image.imageUrl" type="text"
+             placeholder="Please insert image URL"/>
+    </div>
+    <div class="hotspot-style">
+      <label for="hotspotStyleSelect">Hotspot style</label>
+      <select id="hotspotStyleSelect" v-model="image.style">
+        <option value="" disabled>Select the style</option>
+        <option value="numeral">Numeral (1,2,3...)</option>
+        <option value="romanNumeral">Roman numeral (I,II,III...)</option>
+        <option value="alphabeticUp">Alphabetic uppercase (a,b,c...)</option>
+        <option value="alphabeticLow">Alphabetic lowercase (A,B,C...)</option>
+      </select>
+    </div>
+    <div class="markers-editor" v-if="image.imageUrl && image.markers.length">
+      <div class="marker-selector">
+        <h3>Markers</h3>
+        <select @change="showPopup(toEdit)" placeholder="Select a marker" v-model="toEdit">
+          <option value="" selected disabled>
+            {{image.markers.length ? 'Select a marker' : 'Please add a marker'}}
+          </option>
+          <option :value="marker" v-for="(marker,i) of image.markers">{{hotspotStyles[image.style][i]}}</option>
+        </select>
+        <button @click="deleteMarker(toEdit)" class="btn-danger" v-if="toEdit.x >= 0">Delete</button>
+      </div>
+      <div style="width: 100%" v-if="toEdit.x >= 0" class="currentMarker">
+        <div class="sliders">
+          <div class="slider">
+            <label for="sliderX"><b>X: {{toEdit.x * 100}}%</b></label>
+            <input id="sliderX" type="range" min="0" :max="1" step="0.005" class="slider"
+                   v-model="toEdit.x" />
+          </div>
+          <div class="slider">
+            <label for="sliderY"><b>Y: {{toEdit.y * 100}}%</b></label>
+            <input id="sliderY" type="range" min="0" :max="1" step="0.005" class="slider"
+                   v-model="toEdit.y">
+          </div>
+        </div>
+        <div class="text-editor">
+          <label for="toEditText"><b>Text/HTML</b></label>
+          <textarea placeholder="Please add content to the hotspot" id="toEditText" cols="30" rows="10"
+                    v-model="toEdit.html"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="controls" v-if="image.imageUrl">
+      <button @click="addMarker()">Add a marker</button>
+      <button @click="save()">Save</button>
+      <button @click="togglePreview()">Preview</button>
+      <button @click="restorePrevious()" v-if="history.length">Restore</button>
+      <small class="text-muted">You can also click on the image to add another marker.</small>
+    </div>
+  </div>
   <div class="container">
     <img ref="image" @click="addMarker($event)" :src="image.imageUrl" alt=""/>
-    <div :class="{active : marker.active}" class="marker" v-for="marker of image.markers"
-         :style="{'left' : marker.x - (marker.active ? 4 : 16) + 'px', 'top': marker.y - (marker.active ? 4 : 16) + 'px' }"
+    <div :class="{active : marker.active}" class="marker" v-for="(marker ,i) of image.markers"
+         :style="{'left' : (marker.x * 100) - (((!marker.active? 16 : 4)/imageRef.width) * 100) + '%', 'top': (marker.y * 100) - (((!marker.active? 16 : 4)/imageRef.width) * 100) + '%' }"
          @click="showPopup(marker)">
-      <p v-if="!marker.active">{{marker.tag}}</p>
+      <p v-if="!marker.active">{{hotspotStyles[image.style][i]}}</p>
     </div>
-    <div v-if="popup.x && popup.y && popup.html"
-         class="popup" :class="{right : popup.x >= imageRef.width/2}"
-         :style="{left : popup.x >= imageRef.width/2 ? 'initial' : popup.x + 50 + 'px', right : popup.x < imageRef.width/2 ? 'initial' : imageRef.width - popup.x + 50 + 'px', top : popup.y - 34 + 'px'}">
+    <div  class="popup" :class="{right : (popup.x * 100) >= 50 && false}"
+         :style="{left : (popup.x * 100) + ((52/imageRef.width) * 100) - ((4/imageRef.width) * 100) + '%', top : (popup.y *100) - ((4/imageRef.width) * 100)  + '%', display: popup.id ? 'inherit' : 'none'}">
       <div class="line"></div>
-      <div class="content">
-        <div class="text" v-html="popup.html">
+      <div id="popup" class="content"
+           :style="{maxHeight: imageRef.height * 0.8 + 'px', bottom: '30px'}">
+        <div v-if="popup.html" class="text" v-html="popup.html"></div>
+        <div v-if="!popup.html" class="text">
+          <small class="text-muted">Please add content to the hotspot {{popup.x}}</small>
         </div>
       </div>
     </div>

@@ -1,17 +1,14 @@
 <template>
   <div id="app">
     <image-marker></image-marker>
-    <editor></editor>
   </div>
 </template>
 
 <script>
   import ImageMarker from "./components/marker/image-marker";
-  import Editor from "./components/editor/editor";
-
   export default {
     name: 'app',
-    components: {Editor, ImageMarker},
+    components: {ImageMarker},
     data() {
       return {
         msg: 'Welcome to Your Vue.js App'
@@ -21,34 +18,13 @@
 </script>
 
 <style lang="scss">
-  body {
-    background: whitesmoke;
-    margin: 0;
-  }
-
+  @import "assets/global";
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-  }
-
-  h1, h2 {
-    font-weight: normal;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-
-  a {
-    color: #42b983;
+    width: 100%;
   }
 </style>

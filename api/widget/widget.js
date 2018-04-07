@@ -2,16 +2,16 @@ const express = require('express'),
   router = express.Router();
 
 router.post('/', (req,res) => {
-  res.send('C');
+  res.send({"res": "C"});
 });
 router.get('/', (req,res) => {
-  res.send('R');
+  res.send({"res": "R"});
 });
 router.put('/', (req,res) => {
-  res.send('U');
+  res.send({"res": "U"});
 });
 router.delete('/', (req,res) => {
-  res.send('D');
+  res.send({"res": "D"});
 });
 
 module.exports = router;

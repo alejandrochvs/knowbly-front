@@ -1,80 +1,179 @@
-$color: #F9B326;
+@import "../../assets/variables";
 
-.container {
-  min-width: 480px;
-  max-width: 800px;
-  position: relative;
-  margin: auto;
-  img {
-    margin: auto;
-    width: 100%;
-    z-index: 1;
-  }
-  .marker {
-    display: block;
-    position: absolute;
-    background: $color;
-    color: #424242;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    z-index: 2;
-    transition: all .3s ease;
-    p {
-      margin: auto;
-      height: 100%;
-      padding: auto;
-      line-height: 32px;
-      user-select: none;
-      overflow: hidden;
-    }
-    &.active {
-      width: 8px;
-      height: 8px;
-      p {
-        line-height: 8px;
-      }
-    }
-    &:focus{
-      background: white;
-    }
-  }
-  .popup {
-    position: absolute;
-    display: block;
+.image-marker {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  padding-top: 15px;
+  .editor {
+    padding: 20px;
+    box-sizing: border-box;
+    width: 40%;
     background: white;
-    border: solid 2px $color;
-    max-height: 80%;
-    z-index: 3;
-    .line {
-      z-index: 2;
-      position: absolute;
-      left: -50px;
-      top: 32px;
+    display: inline-block;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: left;
+    .image-changer {
+      box-sizing: border-box;
+      label {
+        margin-right: 15px;
+      }
+      input {
+        width: 100%;
+      }
+    }
+    .markers-editor {
+      .currentMarker {
+        border: solid 1px whitesmoke;
+        margin: 15px 0;
+        padding: 15px;
+        box-sizing: border-box;
+        .sliders {
+          display: flex;
+          margin: 15px 0;
+          width: 100%;
+          padding: 15px;
+          box-sizing: border-box;
+          justify-content: space-between;
+          .slider {
+            display: block;
+            text-align: center;
+          }
+        }
+        .text-editor {
+          label {
+            display: block;
+            width: 100%;
+            margin: 15px 0;
+          }
+          textarea {
+            width: 100%;
+            box-sizing: border-box;
+          }
+        }
+      }
+    }
+  }
+  .container {
+    min-width: 480px;
+    max-width: 800px;
+    position: relative;
+    margin: auto;
+    width: 55%;
+    display: inline-block;
+    box-sizing: border-box;
+    img {
+      margin: auto;
+      width: 100%;
+      z-index: 1;
+    }
+    .marker {
       display: block;
-      width: 50px;
-      height: 2px;
+      position: absolute;
       background: $color;
-    }
-    .content {
-      position: relative;
-      z-index: 3;
-      font-size: 16px;
-      line-height: 1.5em;
       color: #424242;
-      height: 100%;
-      overflow: auto;
-      .text {
-        padding: 20px;
-        max-width: 300px;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      z-index: 2;
+      transition: all .3s ease;
+      p {
+        margin: auto;
+        height: 100%;
+        line-height: 32px;
+        user-select: none;
+        overflow: hidden;
+      }
+      &.active {
+        width: 8px;
+        height: 8px;
+        p {
+          line-height: 8px;
+        }
+      }
+      &:focus {
+        background: white;
       }
     }
-    &.right {
-      .line{
-        left: initial;
-        right: -50px;
+    .popup {
+      position: absolute;
+      display: block;
+      max-height: 80%;
+      max-width: 300px;
+      z-index: 3;
+      .line {
+        z-index: 2;
+        position: absolute;
+        left: -50px;
+        top: 3px;
+        display: block;
+        width: 50px;
+        height: 2px;
+        background: $color;
       }
+      .content {
+        background: white;
+        border: solid 2px $color;
+        position: relative;
+        z-index: 3;
+        bottom: 10%;
+        font-size: 16px;
+        line-height: 1.5em;
+        color: #424242;
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: auto;
+        .text {
+          padding: 20px;
+          width: 100%;
+          overflow: auto;
+          overflow-x: hidden;
+          height: 100%;
+          box-sizing: border-box;
+          word-wrap: break-word;
+          text-align: left;
+          img {
+            max-width: 100%;
+          }
+          p {
+            max-width: 100%;
+          }
+          h2, h3 {
+            word-wrap: unset;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+      &.right {
+        .line {
+          left: initial;
+          right: -50px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .image-marker {
+    padding: 5px;
+    width: 100%;
+    .editor{
+      width: 100%;
+    }
+    .container {
+      width: 100%;
+      min-width: 0;
     }
   }
 }
