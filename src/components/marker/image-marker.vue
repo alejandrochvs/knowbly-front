@@ -7,6 +7,7 @@
       return {
         image: {
           loading: false,
+          title : '',
           error: false,
           imageUrl: '',
           markers: [],

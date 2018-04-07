@@ -19,12 +19,16 @@
     margin-bottom: 15px;
     border-radius: 5px;
     text-align: left;
-    .image-changer {
+    .image-changer,.title-changer {
       box-sizing: border-box;
+      display: inline-block;
       label {
         margin-right: 15px;
+        width: 100%;
+        display: inline-block;
       }
       input {
+        display: inline-block;
         width: 100%;
       }
     }

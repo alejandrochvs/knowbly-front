@@ -3,6 +3,11 @@
   <div class="editor" v-if="!preview">
     <h2 style="text-align: center">Editor</h2>
     <hr>
+    <div class="row title-changer">
+      <label for="titleInput">Title</label>
+      <input id="titleInput" @keydown="pushHistory()" v-model="image.title" type="text"
+             placeholder="Edit title"/>
+    </div>
     <div class="row image-changer">
       <label for="imageInput">Image URL</label>
       <input id="imageInput" @keydown="pushHistory()" v-model="image.imageUrl" type="text"

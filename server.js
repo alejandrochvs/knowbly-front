@@ -3,7 +3,7 @@ const express = require('express'),
   api = require('./api/api'),
   cors = require('cors'),
   bodyParser = require('body-parser'),
-  port = process.env.PORT || 3000;
+  port = process.env.PORT || 3001;
 
 app.use(express.static(__dirname));
 app.use(bodyParser.json());

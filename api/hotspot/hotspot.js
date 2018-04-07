@@ -1,17 +1,34 @@
 const express = require('express'),
+  db = require('../db'),
   router = express.Router();
 
 router.post('/', (req,res) => {
-  res.send({res:'C'});
+  db.hotspot.post(req.body).then((dbRes) => {
+    res.send({"res": dbRes});
+  }, (err) => {
+    res.send({"err" : err});
+  });
 });
-router.get('/', (req,res) => {
-  res.send({res:'R'});
+router.get('/:id', (req,res) => {
+  db.hotspot.get(req.params.id).then((dbRes) => {
+    res.send({"res": dbRes});
+  }, (err) => {
+    res.send({"err" : err});
+  });
 });
-router.put('/', (req,res) => {
-  res.send({res: 'U'});
+router.put('/:id', (req,res) => {
+  db.widget.put(req.params.id,req.body).then((dbRes) => {
+    res.send({"res": dbRes});
+  }, (err) => {
+    res.send({"err" : err});
+  });
 });
-router.delete('/', (req,res) => {
-  res.send({res: 'D'});
+router.delete('/:id', (req,res) => {
+  db.hotspot.delete(req.params.id).then((dbRes) => {
+    res.send({"res": dbRes});
+  }, (err) => {
+    res.send({"err" : err});
+  });
 });
 
 module.exports = router;
