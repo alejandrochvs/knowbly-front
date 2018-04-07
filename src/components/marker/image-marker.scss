@@ -1,0 +1,80 @@
+$color: #F9B326;
+
+.container {
+  min-width: 480px;
+  max-width: 800px;
+  position: relative;
+  margin: auto;
+  img {
+    margin: auto;
+    width: 100%;
+    z-index: 1;
+  }
+  .marker {
+    display: block;
+    position: absolute;
+    background: $color;
+    color: #424242;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    z-index: 2;
+    transition: all .3s ease;
+    p {
+      margin: auto;
+      height: 100%;
+      padding: auto;
+      line-height: 32px;
+      user-select: none;
+      overflow: hidden;
+    }
+    &.active {
+      width: 8px;
+      height: 8px;
+      p {
+        line-height: 8px;
+      }
+    }
+    &:focus{
+      background: white;
+    }
+  }
+  .popup {
+    position: absolute;
+    display: block;
+    background: white;
+    border: solid 2px $color;
+    max-height: 80%;
+    z-index: 3;
+    .line {
+      z-index: 2;
+      position: absolute;
+      left: -50px;
+      top: 32px;
+      display: block;
+      width: 50px;
+      height: 2px;
+      background: $color;
+    }
+    .content {
+      position: relative;
+      z-index: 3;
+      font-size: 16px;
+      line-height: 1.5em;
+      color: #424242;
+      height: 100%;
+      overflow: auto;
+      .text {
+        padding: 20px;
+        max-width: 300px;
+      }
+    }
+    &.right {
+      .line{
+        left: initial;
+        right: -50px;
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<div class="image-marker">
+  <input @keydown="pushHistory()" v-model="image.imageUrl" type="text" placeholder="Please insert image URL"/>
+  <button @click="restorePrevious()" v-if="history.length">Previous</button>
+  <br/>
+  <div class="container">
+    <img ref="image" @click="addMarker($event)" :src="image.imageUrl" alt=""/>
+    <div :class="{active : marker.active}" class="marker" v-for="marker of image.markers"
+         :style="{'left' : marker.x - (marker.active ? 4 : 16) + 'px', 'top': marker.y - (marker.active ? 4 : 16) + 'px' }"
+         @click="showPopup(marker)">
+      <p v-if="!marker.active">{{marker.tag}}</p>
+    </div>
+    <div v-if="popup.x && popup.y && popup.html"
+         class="popup" :class="{right : popup.x >= imageRef.width/2}"
+         :style="{left : popup.x >= imageRef.width/2 ? 'initial' : popup.x + 50 + 'px', right : popup.x < imageRef.width/2 ? 'initial' : imageRef.width - popup.x + 50 + 'px', top : popup.y - 34 + 'px'}">
+      <div class="line"></div>
+      <div class="content">
+        <div class="text" v-html="popup.html">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
