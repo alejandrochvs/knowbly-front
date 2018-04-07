@@ -13,14 +13,14 @@ const widgetModel = {
     y: Number,
     id: Number
   };
-const Widget = mongoose.model('Cat', widgetModel);
+const Widget = mongoose.model('Widget', widgetModel);
 const Hotspot = mongoose.model('Hotspot', hotspotModel);
 
 const toExport = {
   widget: {
     get: (_id) => {
       return new Promise((fulfill, reject) => {
-        Widget.findOne({id: _id}, (err, res) => {
+        Widget.findOne({_id: _id}, (err, res) => {
           if (err) return reject(err);
           fulfill(res);
         });
@@ -38,7 +38,7 @@ const toExport = {
     put: (_id, _widget) => {
       return new Promise((fulfill, reject) => {
         const newWidget = new Widget(_widget);
-        Widget.update({id: _id}, {$set: _widget}, {multi: true}, (err, res) => {
+        Widget.update({_id: _id}, {$set: _widget}, {multi: true}, (err, res) => {
           if (err) return reject(err);
           fulfill(res);
         });
@@ -46,7 +46,7 @@ const toExport = {
     },
     'delete': (_id) => {
       return new Promise((fulfill, reject) => {
-        Widget.find({id: _id}).remove((err,res) => {
+        Widget.find({_id: _id}).remove((err,res) => {
           if (err) return reject(err);
           fulfill(res);
         });
@@ -56,7 +56,7 @@ const toExport = {
   hotspot: {
     get: (_id) => {
       return new Promise((fulfill, reject) => {
-        Widget.findOne({id: _id}, (err, res) => {
+        Widget.findOne({_id: _id}, (err, res) => {
           if (err) return reject(err);
           fulfill(res);
         });
@@ -74,7 +74,7 @@ const toExport = {
     put: (_id, _widget) => {
       return new Promise((fulfill, reject) => {
         const newWidget = new Widget(_widget);
-        Widget.update({id: _id}, {$set: _widget}, {multi: true}, (err, res) => {
+        Widget.update({_id: _id}, {$set: _widget}, {multi: true}, (err, res) => {
           if (err) return reject(err);
           fulfill(res);
         });
@@ -82,7 +82,7 @@ const toExport = {
     },
     'delete': (_id) => {
       return new Promise((fulfill, reject) => {
-        Widget.find({id: _id}).remove((err,res) => {
+        Widget.find({_id: _id}).remove((err,res) => {
           if (err) return reject(err);
           fulfill(res);
         });
