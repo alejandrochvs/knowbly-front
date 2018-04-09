@@ -18,6 +18,7 @@ const Hotspot = mongoose.model('Hotspot', hotspotModel);
 
 const toExport = {
   widget: {
+    model : Widget,
     get: (_id) => {
       return new Promise((fulfill, reject) => {
         Widget.findOne({_id: _id}, (err, res) => {
@@ -54,9 +55,10 @@ const toExport = {
     }
   },
   hotspot: {
+    model: Hotspot,
     get: (_id) => {
       return new Promise((fulfill, reject) => {
-        Widget.findOne({_id: _id}, (err, res) => {
+        Widget.find({_id: _id}, (err, res) => {
           if (err) return reject(err);
           fulfill(res);
         });

@@ -11,7 +11,11 @@ router.post('/', (req,res) => {
 });
 router.get('/:id', (req,res) => {
   db.widget.get(req.params.id).then((dbRes) => {
-    res.send({"res": dbRes});
+    db.hotspot.model.find({id : req.params.id}, (err,hotspots) =>{
+      if (err) return res.send({"err" : err});
+      dbRes.markers = hotspots;
+      res.send({"res": dbRes});
+    });
   }, (err) => {
     res.send({"err" : err});
   });

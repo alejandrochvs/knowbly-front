@@ -121,28 +121,46 @@
       },
       save() {
         let markers = this.image.markers;
+        let counter = 0;
         this.image.markers.forEach((_marker, i) => {
           if (_marker._id) {
             this.$http.put(`http://localhost:3001/api/hotspot/${_marker._id}`, _marker).then(res => {
               _marker[i] = res.body.res;
+              counter++;
+              if (counter === this.image.markers.length) {
+                if (this.image._id) {
+                  this.$http.put(`http://localhost:3001/api/widget/${this.image._id}`, this.image).then(res => {
+                    this.image = res.body.res;
+                    this.image.markers = markers;
+                  })
+                } else {
+                  this.$http.post(`http://localhost:3001/api/widget`, this.image).then(res => {
+                    this.image = res.body.res;
+                    this.image.markers = markers;
+                  })
+                }
+              }
             })
           } else {
             this.$http.post(`http://localhost:3001/api/hotspot`, this.image).then(res => {
               _marker[i] = res.body.res;
+              counter++;
+              if (counter === this.image.markers.length) {
+                if (this.image._id) {
+                  this.$http.put(`http://localhost:3001/api/widget/${this.image._id}`, this.image).then(res => {
+                    this.image = res.body.res;
+                    this.image.markers = markers;
+                  })
+                } else {
+                  this.$http.post(`http://localhost:3001/api/widget`, this.image).then(res => {
+                    this.image = res.body.res;
+                    this.image.markers = markers;
+                  })
+                }
+              }
             })
           }
-        })
-        if (this.image._id) {
-          this.$http.put(`http://localhost:3001/api/widget/${this.image._id}`, this.image).then(res => {
-            this.image = res.body.res;
-            this.image.markers = markers;
-          })
-        } else {
-          this.$http.post(`http://localhost:3001/api/widget`, this.image).then(res => {
-            this.image = res.body.res;
-            this.image.markers = markers;
-          })
-        }
+        });
         this.clearActive();
         this.closePopup();
         this.clearToEdit();
